@@ -100,17 +100,45 @@ Each order includes:
 ### 5. Export Feature
 ![Exported Document](Screenshots/export_feature.png)
 
-
 *Demonstrates CSV/PDF export functionality.*
 
 
 ## How to Run the Project
 
-```bash
+## Setup Environment
+
+1. Copy `.env.example` to `.env`:
+   cp .env.example .env
+   
+2. Update .env with your local database credentials and other keys (like DB username, password, and app keys).
+
+## Setup Database
+1. Import the database dump:
+2. 
+mysql -u <db_username> -p <database_name> < database.sql
+
+Example:
+mysql -u root -p customer_crm_db < database.sql
+
+## How to Run the Project
+1. Clone the repository:
 git clone <repo-link>
 cd project-folder
+
+2. Install PHP and Node dependencies:
 composer install
 npm install
+
+3. Generate the Laravel application key:
 php artisan key:generate
-php artisan migrate
+
+4. Serve the application locally:
 php artisan serve
+
+5. Open the project in your browser:
+http://localhost:8000
+
+
+
+
+
