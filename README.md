@@ -1,66 +1,114 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ImpactGuru Mini CRM – Internship Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Company
+ImpactGuru
 
-## About Laravel
+## Project Title
+ImpactGuru Mini CRM – Customer & Order Management System
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Developer
+Name: Bharati Jain  
+Email: bharatijain802@gmail.com  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Overview 
+This project is a Mini CRM system built using Laravel as part of the ImpactGuru Internship assignment.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The system helps manage:
+- Customers
+- Orders
+- User roles (Admin & Staff)
+- Order statuses
+- Dashboard analytics
+- Data export (CSV/PDF)
 
-## Learning Laravel
+It demonstrates practical use of Laravel authentication, Blade UI, Eloquent ORM, routing, validation, and role-based access control.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Modules Implemented
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Authentication
+- Login / Logout
+- Role-based access (Admin / Staff)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Dashboard
+- Total customers
+- Total orders
+- Revenue summary
+- Recent customers list
+- Export customers list as PDF/CSV File
 
-## Laravel Sponsors
+### Customer Management
+- Add customer
+- Edit customer
+- Delete customer
+- Profile image upload
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Orders Management
+The Orders module allows Admin users to:
 
-### Premium Partners
+- Add new orders
+- View all orders
+- Edit order details
+- Delete orders
+- Search orders by product name
+- Export orders as CSV/PDF file
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Each order includes:
+- Customer name
+- Product name
+- Quantity
+- Price
+- Status (default: Pending)
 
-## Contributing
+### Role Permissions
+#### Admin:
+- Full access
+- Can add/edit/delete customers
+- Can export orders as pdf/csv file
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Staff:
+- Read-only access
+- Can view dashboard
+- Cannot modify records
 
-## Code of Conduct
+## Tech Stack
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Laravel
+- PHP
+- MySQL
+- Blade
+- Bootstrap / Tailwind
+- GitHub
 
-## Security Vulnerabilities
+## Screenshots
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. Login Page
+![Login Page](screenshots/login_page.png)
+*Sample credentials: admin@example.com / password*
 
-## License
+### 2. Dashboard
+![Dashboard](Screenshots/dashboard.png)
+*Shows total customers, total orders, revenue summary, and recent customers.*
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Customer Management
+![Customer List](Screenshots/customers_list.png)
+*List of customers with add, edit, delete, and profile image upload options.*
+
+### 4. Orders Management
+![Orders List](Screenshots/order_list.png)
+*Shows orders with product names, quantities, prices, statuses, and search.*
+
+### 5. Export Feature
+![Exported Document](Screenshots/export_feature.png)
+*Demonstrates CSV/PDF export functionality.*
+
+
+## How to Run the Project
+
+```bash
+git clone <repo-link>
+cd project-folder
+composer install
+npm install
+php artisan key:generate
+php artisan migrate
+php artisan serve
