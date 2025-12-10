@@ -113,7 +113,7 @@ Each order includes:
 
 ## Setup Database
 1. Import the database dump:
-2. 
+   
 mysql -u <db_username> -p <database_name> < database.sql
 
 Example:
