@@ -49,7 +49,6 @@ The Orders module allows Admin users to:
 - View all orders
 - Edit order details
 - Delete orders
-- Search orders by product name
 - Export orders as CSV/PDF file
 
 Each order includes:
