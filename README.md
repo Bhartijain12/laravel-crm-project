@@ -82,7 +82,7 @@ Each order includes:
 ## Screenshots
 
 ### 1. Login Page
-![Login Page](screenshots/login_page.png)
+![Login Page](Screenshots/login_page.png)
 *Sample credentials: admin@example.com / password*
 
 ### 2. Dashboard
