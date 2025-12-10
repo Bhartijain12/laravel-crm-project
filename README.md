@@ -1,10 +1,10 @@
-# ImpactGuru Mini CRM – Internship Project
+#  Mini CRM – Internship Project
 
 ## Company
 ImpactGuru
 
 ## Project Title
-ImpactGuru Mini CRM – Customer & Order Management System
+Mini CRM – Customer & Order Management System
 
 ## Developer
 Name: Bharati Jain  
