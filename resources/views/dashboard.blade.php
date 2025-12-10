@@ -28,12 +28,19 @@
 
         {{-- Admin-only Actions --}}
         @if(auth()->user()->role === 'admin')
-            <div class="mb-4 flex gap-2">
-                <a href="{{ route('customers.create') }}" class="bg-black text-white px-3 py-1 rounded">
-                    Add Customer
-                </a>
-                <a href="{{ route('customers.export.csv') }}" class="text-blue-600">Export CSV</a>
-                <a href="{{ route('customers.export.pdf') }}" class="text-blue-600">Export PDF</a>
+            <div class="mb-4 flex gap-4">
+            
+    <a href="{{ route('customers.create') }}" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">
+        Add Customer
+    </a>
+    <a href="{{ route('customers.export.csv') }}" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-green-600 transition ">
+        Export CSV
+    </a>
+    <a href="{{ route('customers.export.pdf') }}" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">
+        Export PDF
+    </a>
+</div>
+
             </div>
         @endif
 
