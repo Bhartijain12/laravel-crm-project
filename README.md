@@ -136,13 +136,13 @@ Each order includes:
 
 ##  Setup Instructions
 
-
- 1. Clone Repository
 ```bash
+ 1. Clone Repository
+    
 git clone <repo-link>
 cd project-folder
 
- 2. Install Dependencies
+ 3. Install Dependencies
 
 composer install
 npm install
