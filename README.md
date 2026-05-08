@@ -142,21 +142,21 @@ Each order includes:
 git clone <repo-link>
 cd project-folder
 
-### 2. Install Dependencies
+ 2. Install Dependencies
 
 composer install
 npm install
 
-### 3. Environment Setup
+ 3. Environment Setup
 cp .env.example .env
 php artisan key:generate
 
 Update .env with database credentials.
 
-### 4. Database Setup
+ 4. Database Setup
 mysql -u root -p customer_crm_db < database.sql
 
-### 5. Run Application
+ 5. Run Application
 php artisan serve
 
 Open:
