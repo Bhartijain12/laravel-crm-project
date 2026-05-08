@@ -1,19 +1,16 @@
-#  Mini CRM – Internship Project
-
-## Company
-ImpactGuru
-
 ## Project Title
-Mini CRM – Customer & Order Management System
+ClientFlow CRM – Customer & Order Management System
+
 
 ## Developer
 Name: Bharati Jain  
 Email: bharatijain802@gmail.com  
 
 ## Overview 
-This project is a Mini CRM system built using Laravel as part of the ImpactGuru Internship assignment.
+ClientFlow CRM is a role-based Customer Relationship Management system built using Laravel.  
+It was developed as part of an internship assignment to simulate real-world CRM workflows.
 
-The system helps manage:
+The system manages:
 - Customers
 - Orders
 - User roles (Admin & Staff)
@@ -21,7 +18,23 @@ The system helps manage:
 - Dashboard analytics
 - Data export (CSV/PDF)
 
-It demonstrates practical use of Laravel authentication, Blade UI, Eloquent ORM, routing, validation, and role-based access control.
+It demonstrates practical implementation of:
+Laravel authentication, Blade UI, Eloquent ORM, routing, validation, and role-based access control.
+
+---
+
+## Key Features
+- Role-Based Access Control (Admin & Staff)
+- Customer & Order Management (CRUD)
+- Dashboard with analytics (customers, orders, revenue)
+- Search and filtering support
+- Profile image upload
+- CSV and PDF export functionality
+- Activity tracking (user actions log)
+- Pagination support
+- Soft delete support
+
+---
 
 ## Modules Implemented
 
@@ -29,54 +42,64 @@ It demonstrates practical use of Laravel authentication, Blade UI, Eloquent ORM,
 - Login / Logout
 - Role-based access (Admin / Staff)
 
+  ---
+
 ### Dashboard
 - Total customers
 - Total orders
-- Revenue summary
+- Total Revenue
 - Recent customers list
-- Export customers list as PDF/CSV File
+- Export data as PDF/CSV File
+
+---
 
 ### Customer Management
-- Add customer
-- Edit customer
-- Delete customer
+- Add / Edit / Delete customer
 - Profile image upload
+- Search & pagination
+
+---
+
 
 ### Orders Management
-The Orders module allows Admin users to:
-
-- Add new orders
+(Admin only operations)
+- Create new orders
 - View all orders
-- Edit order details
+- Update order details
 - Delete orders
-- Export orders as CSV/PDF file
+- Export orders as CSV/PDF
 
 Each order includes:
 - Customer name
 - Product name
 - Quantity
 - Price
-- Status (default: Pending)
+
+---
 
 ### Role Permissions
-#### Admin:
-- Full access
-- Can add/edit/delete customers
-- Can export orders as pdf/csv file
+#### Admin
+- Full system access
+- Manage customers and orders
+- Export reports
 
-#### Staff:
+#### Staff
 - Read-only access
-- Can view dashboard
-- Cannot modify records
+- View dashboard and data
+- Cannot modify or delete records
+
+---
 
 ## Tech Stack
 
-- Laravel
-- PHP
-- MySQL
-- Blade
-- Bootstrap / Tailwind
-- GitHub
+- Backend: Laravel 10, PHP 8
+- Frontend: Blade, Tailwind CSS
+- Database: MySQL
+- Authentication: Laravel Breeze
+- Exports:  CSV Streaming
+- Version Control: Git & GitHub
+
+---
 
 ## Screenshots
 
@@ -84,59 +107,60 @@ Each order includes:
 ![Login Page](Screenshots/login_page.png)
 *Sample credentials: admin@example.com / password*
 
+---
+
 ### 2. Dashboard
 ![Dashboard](Screenshots/dashboard.png)
-*Shows total customers, total orders, revenue summary, and recent customers.*
+*Displays key metrics and recent customer activity.*
+
+---
 
 ### 3. Customer Management
 ![Customer List](Screenshots/customers_list.png)
-*List of customers with add, edit, delete, and profile image upload options.*
+*Manage customers with CRUD and image upload.*
+
+---
 
 ### 4. Orders Management
 ![Orders List](Screenshots/order_list.png)
-*Shows orders with product names, quantities, prices, statuses, and search.*
+*Order tracking with search and status management.*
+
+---
 
 ### 5. Export Feature
 ![Exported Document](Screenshots/export_feature.png)
 
 *Demonstrates CSV/PDF export functionality.*
 
+---
 
-## How to Run the Project
+##  Setup Instructions
 
-## Setup Environment
 
-1. Copy `.env.example` to `.env`:
-   cp .env.example .env
-   
-2. Update .env with your local database credentials and other keys (like DB username, password, and app keys).
-
-## Setup Database
-1. Import the database dump:
-   
-mysql -u <db_username> -p <database_name> < database.sql
-
-Example:
-mysql -u root -p customer_crm_db < database.sql
-
-## How to Run the Project
-1. Clone the repository:
+### 1. Clone Repository
+```bash
 git clone <repo-link>
 cd project-folder
 
-2. Install PHP and Node dependencies:
+### 2. Install Dependencies
+
 composer install
 npm install
 
-3. Generate the Laravel application key:
+### 3. Environment Setup
+cp .env.example .env
 php artisan key:generate
 
-4. Serve the application locally:
+Update .env with database credentials.
+
+### 4. Database Setup
+mysql -u root -p customer_crm_db < database.sql
+
+### 5. Run Application
 php artisan serve
 
-5. Open the project in your browser:
+Open:
 http://localhost:8000
-
 
 
 
