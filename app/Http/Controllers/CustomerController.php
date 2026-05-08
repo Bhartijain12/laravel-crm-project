@@ -4,16 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Barryvdh\DomPDF\Facade\Pdf; // for PDF
 
+
 class CustomerController extends Controller
 {
-    public function index()
-    {
-        $customers = Customer::paginate(5);
-        return view('customers.index', compact('customers'));
-    }
+    public function index(Request $request)
+{
+    $search = $request->search;
+
+    $customers = Customer::when($search, function ($query, $search) {
+        return $query->where('name', 'like', '%' . $search . '%')
+                     ->orWhere('email', 'like', '%' . $search . '%')
+                     ->orWhere('phone', 'like', '%' . $search . '%');
+    })->paginate(5);
+
+    return view('customers.index', compact('customers', 'search'));
+}
 
     public function create()
     {
@@ -41,6 +51,10 @@ class CustomerController extends Controller
         }
 
         Customer::create($data);
+        ActivityLog::create([
+    'user_id' => Auth::id(),
+    'action' => 'Created customer: ' . $data['name'],
+]);
 
         return redirect()->route('customers.index')->with('success', 'Customer added successfully!');
     }
@@ -79,6 +93,10 @@ class CustomerController extends Controller
         }
 
         $customer->update($data);
+        ActivityLog::create([
+    'user_id' => Auth::id(),
+    'action' => 'Updated customer: ' . $customer->name,
+]);
 
         return redirect()->route('customers.index')->with('success', 'Customer updated!');
     }
@@ -94,6 +112,10 @@ class CustomerController extends Controller
 
         // Soft delete
         $customer->delete();
+        ActivityLog::create([
+    'user_id' => Auth::id(),
+    'action' => 'Deleted customer: ' . $customer->name,
+]);
 
         return redirect()->route('customers.index')->with('success', 'Customer deleted!');
     }
