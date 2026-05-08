@@ -137,7 +137,7 @@ Each order includes:
 ##  Setup Instructions
 
 
-### 1. Clone Repository
+ 1. Clone Repository
 ```bash
 git clone <repo-link>
 cd project-folder
