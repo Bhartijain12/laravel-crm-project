@@ -145,9 +145,7 @@ Each order includes:
 
 ## Setup Instructions
 
-
 1. Clone Repository
-
 ```bash
 git clone <repo-link>
 cd project-folder
@@ -179,16 +177,17 @@ Open in browser:
 
 http://localhost:8000
 
-
 ## Demo Credentials
 
 ### **Admin Login**
+
 ```text
 Email: admin@example.com
 Password: admin123
 ```
 
-### Staff Login
+### **Staff Login**
+
 ```text
 Email: staff@example.com
 Password: Staff123
