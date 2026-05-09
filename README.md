@@ -145,7 +145,8 @@ Each order includes:
 
 ## Setup Instructions
 
-### 1. Clone Repository
+
+1. Clone Repository
 
 ```bash
 git clone <repo-link>
@@ -181,7 +182,7 @@ http://localhost:8000
 
 ## Demo Credentials
 
-### Admin Login
+### **Admin Login**
 ```text
 Email: admin@example.com
 Password: admin123
