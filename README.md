@@ -145,37 +145,64 @@ Each order includes:
 
 ## Setup Instructions
 
-1. Clone Repository
+### 1. Clone Repository
+
 ```bash
 git clone <repo-link>
 cd project-folder
+```
 
-2. Install Dependencies
+---
+
+### 2. Install Dependencies
+
+```bash
 composer install
 npm install
+```
 
-3. Environment Setup
+---
+
+### 3. Environment Setup
+
+```bash
 cp .env.example .env
 php artisan key:generate
+```
 
-Update .env with your database credentials.
+Update `.env` with your database credentials.
 
-4. Database Setup
+---
+
+### 4. Database Setup
 
 Create a MySQL database:
 
+```sql
 CREATE DATABASE customer_crm_db;
+```
 
 Import the provided SQL file:
 
+```bash
 mysql -u root -p customer_crm_db < database.sql
+```
 
-5. Run Application
+---
+
+### 5. Run Application
+
+```bash
 php artisan serve
+```
 
 Open in browser:
 
+```text
 http://localhost:8000
+```
+
+---
 
 ## Demo Credentials
 
@@ -192,4 +219,3 @@ Password: admin123
 Email: staff@example.com
 Password: Staff123
 ```
-
