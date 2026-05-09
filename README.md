@@ -7,8 +7,7 @@ Name: Bharati Jain
 Email: bharatijain802@gmail.com  
 
 ## Overview 
-ClientFlow CRM is a role-based Customer Relationship Management system built using Laravel.  
-It was developed as part of an internship assignment to simulate real-world CRM workflows.
+ClientFlow CRM is a role-based Customer Relationship Management system built using Laravel to simulate real-world CRM workflows.
 
 The system manages:
 - Customers
@@ -32,7 +31,7 @@ Laravel authentication, Blade UI, Eloquent ORM, routing, validation, and role-ba
 - CSV and PDF export functionality
 - Activity tracking (user actions log)
 - Pagination support
-- Soft delete support
+- Soft delete functionality for customers
 
 ---
 
@@ -107,7 +106,6 @@ Each order includes:
 ![Login Page](Screenshots/admin_login_page.png)
 *Sample credentials: admin@example.com / password*
 
----
 
 ![Login Page](Screenshots/staff_login_page.png)
 *Sample credentials: staff@example.com / password*
@@ -145,34 +143,53 @@ Each order includes:
 
 ---
 
-##  Setup Instructions
+## Setup Instructions
+
+### 1. Clone Repository
 
 ```bash
- 1. Clone Repository
-    
 git clone <repo-link>
 cd project-folder
 
- 3. Install Dependencies
-
+2. Install Dependencies
 composer install
 npm install
 
- 3. Environment Setup
+3. Environment Setup
 cp .env.example .env
 php artisan key:generate
 
-Update .env with database credentials.
+Update .env with your database credentials.
 
- 4. Database Setup
+4. Database Setup
+
+Create a MySQL database:
+
+CREATE DATABASE customer_crm_db;
+
+Import the provided SQL file:
+
 mysql -u root -p customer_crm_db < database.sql
 
- 5. Run Application
+5. Run Application
 php artisan serve
 
-Open:
+Open in browser:
+
 http://localhost:8000
 
 
+## Demo Credentials
 
+### Admin Login
+```text
+Email: admin@example.com
+Password: admin123
+```
+
+### Staff Login
+```text
+Email: staff@example.com
+Password: Staff123
+```
 
