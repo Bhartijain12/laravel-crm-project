@@ -1,197 +1,397 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-bold">Dashboard</h2>
+        <h2 class="text-xl font-bold">
+            Dashboard
+        </h2>
     </x-slot>
 
-    <!-- Dashboard Cards -->
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+    <!-- Main Container -->
+    <div style="max-width:1200px; margin:20px auto; padding:0 20px;">
 
-        <div class="bg-white p-4 rounded shadow">
-            <h3 class="text-gray-600 font-semibold">Total Customers</h3>
-            <p class="text-2xl font-bold mt-2">
-                {{ $totalCustomers }}
-            </p>
-        </div>
+        <!-- Dashboard Cards -->
+        <div style="
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+            gap:20px;
+            margin-bottom:20px;
+        ">
 
-        <div class="bg-white p-4 rounded shadow">
-            <h3 class="text-gray-600 font-semibold">Total Orders</h3>
-            <p class="text-2xl font-bold mt-2">
-                {{ $totalOrders }}
-            </p>
-        </div>
+            <!-- Customers -->
+            <div style="
+                background:white;
+                padding:20px;
+                border-radius:10px;
+                box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            ">
+                <h3 style="color:#6b7280; font-weight:600;">
+                    Total Customers
+                </h3>
 
-        <div class="bg-white p-4 rounded shadow">
-            <h3 class="text-gray-600 font-semibold">Total Revenue</h3>
-            <p class="text-2xl font-bold mt-2">
-                ₹ {{ $totalRevenue }}
-            </p>
-        </div>
-
-    </div>
-
-    <!-- Recent Customers -->
-    <div class="max-w-6xl mx-auto bg-white rounded shadow p-4 mt-4">
-
-        <h3 class="text-lg font-bold mb-4">
-            Recent Customers
-        </h3>
-
-        {{-- Admin-only Actions --}}
-        @if(auth()->user()->role === 'admin')
-
-            <div class="mb-4 flex gap-4 flex-wrap">
-
-                <a href="{{ route('customers.create') }}"
-                   class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                    Add Customer
-                </a>
-
-                <a href="{{ route('customers.export.csv') }}"
-                   class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-                    Export CSV
-                </a>
-
-                <a href="{{ route('customers.export.pdf') }}"
-                   class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
-                    Export PDF
-                </a>
-
+                <p style="
+                    font-size:30px;
+                    font-weight:bold;
+                    margin-top:10px;
+                ">
+                    {{ $totalCustomers }}
+                </p>
             </div>
 
-        @endif
+            <!-- Orders -->
+            <div style="
+                background:white;
+                padding:20px;
+                border-radius:10px;
+                box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            ">
+                <h3 style="color:#6b7280; font-weight:600;">
+                    Total Orders
+                </h3>
 
-        <!-- Customers Table -->
-        <table class="w-full border text-sm text-left">
+                <p style="
+                    font-size:30px;
+                    font-weight:bold;
+                    margin-top:10px;
+                ">
+                    {{ $totalOrders }}
+                </p>
+            </div>
 
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="p-2 border">Name</th>
-                    <th class="p-2 border">Email</th>
-                    <th class="p-2 border text-center">Date</th>
+            <!-- Revenue -->
+            <div style="
+                background:white;
+                padding:20px;
+                border-radius:10px;
+                box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            ">
+                <h3 style="color:#6b7280; font-weight:600;">
+                    Total Revenue
+                </h3>
 
-                    @if(auth()->user()->role === 'admin')
-                        <th class="p-2 border text-center">
-                            Actions
-                        </th>
-                    @endif
-                </tr>
-            </thead>
+                <p style="
+                    font-size:30px;
+                    font-weight:bold;
+                    margin-top:10px;
+                    color:#16a34a;
+                ">
+                    ₹ {{ $totalRevenue }}
+                </p>
+            </div>
 
-            <tbody>
+        </div>
 
-                @forelse($recentCustomers as $c)
+        <!-- Recent Customers -->
+        <div style="
+            background:white;
+            border-radius:10px;
+            padding:20px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.08);
+        ">
 
-                    <tr>
-
-                        <td class="p-2 border">
-                            {{ $c->name }}
-                        </td>
-
-                        <td class="p-2 border">
-                            {{ $c->email }}
-                        </td>
-
-                        <td class="p-2 border text-center">
-                            {{ $c->created_at->format('d-m-Y') }}
-                        </td>
-
-                        @if(auth()->user()->role === 'admin')
-
-                            <td class="p-2 border text-center">
-
-                                <!-- Edit -->
-                                <a href="{{ route('customers.edit', ['customer' => $c->id]) }}"
-                                   class="text-blue-600 mr-3 hover:underline">
-                                    Edit
-                                </a>
-
-                                <!-- Delete -->
-                                <form action="{{ route('customers.destroy', ['customer' => $c->id]) }}"
-                                      method="POST"
-                                      style="display:inline;">
-
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="submit"
-                                            class="text-red-600 hover:underline"
-                                            onclick="return confirm('Delete this customer?')">
-
-                                        Delete
-
-                                    </button>
-
-                                </form>
-
-                            </td>
-
-                        @endif
-
-                    </tr>
-
-                @empty
-
-                    <tr>
-                        <td colspan="4" class="p-4 text-center text-gray-500">
-                            No recent customers found.
-                        </td>
-                    </tr>
-
-                @endforelse
-
-            </tbody>
-
-        </table>
-
-        <!-- Recent Activity -->
-        <div class="mt-8">
-
-            <h3 class="text-lg font-bold mb-3">
-                Recent Activity
+            <h3 style="
+                font-size:24px;
+                font-weight:bold;
+                margin-bottom:20px;
+            ">
+                Recent Customers
             </h3>
 
-            <div class="bg-gray-50 border rounded p-4">
+            <!-- Buttons -->
+            @if(auth()->user()->role === 'admin')
 
-                @forelse($activities as $activity)
+                <div style="
+                    margin-bottom:20px;
+                    display:flex;
+                    gap:12px;
+                    flex-wrap:wrap;
+                ">
 
-                    <div class="border-b py-3">
+                    <a href="{{ route('customers.create') }}"
+                       style="
+                            background:#2563eb;
+                            color:white;
+                            padding:10px 16px;
+                            border-radius:8px;
+                            text-decoration:none;
+                            font-weight:600;
+                            display:inline-block;
+                       ">
+                        Add Customer
+                    </a>
 
-                        <div class="font-medium text-gray-800">
-                            {{ $activity->action }}
-                        </div>
+                    <a href="{{ route('customers.export.csv') }}"
+                       style="
+                            background:#16a34a;
+                            color:white;
+                            padding:10px 16px;
+                            border-radius:8px;
+                            text-decoration:none;
+                            font-weight:600;
+                            display:inline-block;
+                       ">
+                        Export CSV
+                    </a>
 
-                        <div class="text-sm text-gray-500">
-                            {{ $activity->created_at->diffForHumans() }}
-                        </div>
+                    <a href="{{ route('customers.export.pdf') }}"
+                       style="
+                            background:#dc2626;
+                            color:white;
+                            padding:10px 16px;
+                            border-radius:8px;
+                            text-decoration:none;
+                            font-weight:600;
+                            display:inline-block;
+                       ">
+                        Export PDF
+                    </a>
+
+                </div>
+
+            @endif
+
+            <!-- Table -->
+            <div style="overflow-x:auto;">
+
+                <table style="
+                    width:100%;
+                    border-collapse:collapse;
+                    border:1px solid #d1d5db;
+                ">
+
+                    <thead style="background:#f3f4f6;">
+
+                        <tr>
+
+                            <th style="
+                                border:1px solid #d1d5db;
+                                padding:12px;
+                                text-align:left;
+                            ">
+                                Name
+                            </th>
+
+                            <th style="
+                                border:1px solid #d1d5db;
+                                padding:12px;
+                                text-align:left;
+                            ">
+                                Email
+                            </th>
+
+                            <th style="
+                                border:1px solid #d1d5db;
+                                padding:12px;
+                                text-align:center;
+                            ">
+                                Date
+                            </th>
+
+                            @if(auth()->user()->role === 'admin')
+
+                                <th style="
+                                    border:1px solid #d1d5db;
+                                    padding:12px;
+                                    text-align:center;
+                                ">
+                                    Actions
+                                </th>
+
+                            @endif
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @forelse($recentCustomers as $c)
+
+                            <tr>
+
+                                <td style="
+                                    border:1px solid #d1d5db;
+                                    padding:12px;
+                                ">
+                                    {{ $c->name }}
+                                </td>
+
+                                <td style="
+                                    border:1px solid #d1d5db;
+                                    padding:12px;
+                                ">
+                                    {{ $c->email }}
+                                </td>
+
+                                <td style="
+                                    border:1px solid #d1d5db;
+                                    padding:12px;
+                                    text-align:center;
+                                ">
+                                    {{ $c->created_at->format('d-m-Y') }}
+                                </td>
+
+                                @if(auth()->user()->role === 'admin')
+
+                                    <td style="
+                                        border:1px solid #d1d5db;
+                                        padding:12px;
+                                        text-align:center;
+                                    ">
+
+                                        <a href="{{ route('customers.edit', $c->id) }}"
+                                           style="
+                                                color:#2563eb;
+                                                margin-right:12px;
+                                                text-decoration:none;
+                                                font-weight:600;
+                                           ">
+                                            Edit
+                                        </a>
+
+                                        <form action="{{ route('customers.destroy', $c->id) }}"
+                                              method="POST"
+                                              style="display:inline;">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit"
+                                                    onclick="return confirm('Delete this customer?')"
+                                                    style="
+                                                        background:none;
+                                                        border:none;
+                                                        color:#dc2626;
+                                                        cursor:pointer;
+                                                        font-weight:600;
+                                                    ">
+                                                Delete
+                                            </button>
+
+                                        </form>
+
+                                    </td>
+
+                                @endif
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+
+                                <td colspan="4"
+                                    style="
+                                        border:1px solid #d1d5db;
+                                        padding:16px;
+                                        text-align:center;
+                                        color:#6b7280;
+                                    ">
+
+                                    No recent customers found.
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <!-- Recent Activity -->
+            @if(auth()->user()->role === 'admin')
+
+                <div style="margin-top:35px;">
+
+                    <h3 style="
+                        font-size:24px;
+                        font-weight:bold;
+                        margin-bottom:15px;
+                    ">
+                        Recent Activity
+                    </h3>
+
+                    <div style="
+                        background:#f9fafb;
+                        border:1px solid #e5e7eb;
+                        border-radius:10px;
+                    ">
+
+                        @forelse($activities ?? [] as $activity)
+
+                            <div style="
+                                padding:15px;
+                                border-bottom:1px solid #e5e7eb;
+                            ">
+
+                                <div style="
+                                    font-weight:600;
+                                    color:#1f2937;
+                                ">
+                                    {{ $activity->action }}
+                                </div>
+
+                                <div style="
+                                    color:#6b7280;
+                                    margin-top:5px;
+                                    font-size:14px;
+                                ">
+                                    {{ $activity->created_at->diffForHumans() }}
+                                </div>
+
+                            </div>
+
+                        @empty
+
+                            <div style="
+                                padding:15px;
+                                color:#6b7280;
+                            ">
+                                No recent activity found.
+                            </div>
+
+                        @endforelse
 
                     </div>
 
-                @empty
+                </div>
 
-                    <div class="text-gray-500">
-                        No recent activity found.
-                    </div>
+            @endif
 
-                @endforelse
+            <!-- Role Badge -->
+            <div style="margin-top:25px;">
+
+                @if(auth()->user()->role === 'admin')
+
+                    <span style="
+                        background:#dcfce7;
+                        color:#166534;
+                        padding:8px 14px;
+                        border-radius:8px;
+                        font-weight:600;
+                    ">
+                        Admin Access ✅
+                    </span>
+
+                @else
+
+                    <span style="
+                        background:#dbeafe;
+                        color:#1d4ed8;
+                        padding:8px 14px;
+                        border-radius:8px;
+                        font-weight:600;
+                    ">
+                        Staff Access ✅
+                    </span>
+
+                @endif
 
             </div>
 
         </div>
-
-        <!-- Role Badge -->
-        @if(auth()->user()->role === 'admin')
-
-            <div class="mt-6 text-green-600 font-bold">
-                Admin Access ✅
-            </div>
-
-        @else
-
-            <div class="mt-6 text-blue-600 font-bold">
-                Staff Access ✅
-            </div>
-
-        @endif
 
     </div>
 

@@ -7,23 +7,22 @@ use Illuminate\Http\Request;
 use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
-use Barryvdh\DomPDF\Facade\Pdf; // for PDF
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CustomerController extends Controller
 {
     public function index(Request $request)
-{
-    $search = $request->search;
+    {
+        $search = $request->search;
 
-    $customers = Customer::when($search, function ($query, $search) {
-        return $query->where('name', 'like', '%' . $search . '%')
-                     ->orWhere('email', 'like', '%' . $search . '%')
-                     ->orWhere('phone', 'like', '%' . $search . '%');
-    })->paginate(5);
+        $customers = Customer::when($search, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%')
+                         ->orWhere('email', 'like', '%' . $search . '%')
+                         ->orWhere('phone', 'like', '%' . $search . '%');
+        })->paginate(5);
 
-    return view('customers.index', compact('customers', 'search'));
-}
+        return view('customers.index', compact('customers', 'search'));
+    }
 
     public function create()
     {
@@ -42,26 +41,44 @@ class CustomerController extends Controller
 
         $data = $request->all();
 
-        // Handle profile image upload
+        // Profile image upload
         if ($request->hasFile('profile_image')) {
+
             $file = $request->file('profile_image');
+
             $filename = time() . '_' . $file->getClientOriginalName();
+
             $file->move(public_path('uploads/customers'), $filename);
+
             $data['profile_image'] = $filename;
         }
 
         Customer::create($data);
-        ActivityLog::create([
-    'user_id' => Auth::id(),
-    'action' => 'Created customer: ' . $data['name'],
-]);
 
-        return redirect()->route('customers.index')->with('success', 'Customer added successfully!');
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Created customer: ' . $data['name'],
+        ]);
+
+        return redirect()
+            ->route('customers.index')
+            ->with('success', 'Customer added successfully!');
+    }
+
+    /*
+    |-----------------------------------------
+    | REMOVE SHOW ROUTE ISSUE
+    |-----------------------------------------
+    */
+    public function show($id)
+    {
+        return redirect()->route('customers.index');
     }
 
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
+
         return view('customers.edit', compact('customer'));
     }
 
@@ -79,78 +96,105 @@ class CustomerController extends Controller
 
         $data = $request->all();
 
-        // Handle profile image upload
+        // Update profile image
         if ($request->hasFile('profile_image')) {
-            // Delete old image if exists
-            if ($customer->profile_image && file_exists(public_path('uploads/customers/' . $customer->profile_image))) {
+
+            // Delete old image
+            if (
+                $customer->profile_image &&
+                file_exists(public_path('uploads/customers/' . $customer->profile_image))
+            ) {
                 unlink(public_path('uploads/customers/' . $customer->profile_image));
             }
 
             $file = $request->file('profile_image');
+
             $filename = time() . '_' . $file->getClientOriginalName();
+
             $file->move(public_path('uploads/customers'), $filename);
+
             $data['profile_image'] = $filename;
         }
 
         $customer->update($data);
-        ActivityLog::create([
-    'user_id' => Auth::id(),
-    'action' => 'Updated customer: ' . $customer->name,
-]);
 
-        return redirect()->route('customers.index')->with('success', 'Customer updated!');
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Updated customer: ' . $customer->name,
+        ]);
+
+        return redirect()
+            ->route('customers.index')
+            ->with('success', 'Customer updated successfully!');
     }
 
     public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
 
-        // Delete profile image from folder
-        if ($customer->profile_image && file_exists(public_path('uploads/customers/' . $customer->profile_image))) {
+        // Delete profile image
+        if (
+            $customer->profile_image &&
+            file_exists(public_path('uploads/customers/' . $customer->profile_image))
+        ) {
             unlink(public_path('uploads/customers/' . $customer->profile_image));
         }
 
-        // Soft delete
         $customer->delete();
-        ActivityLog::create([
-    'user_id' => Auth::id(),
-    'action' => 'Deleted customer: ' . $customer->name,
-]);
 
-        return redirect()->route('customers.index')->with('success', 'Customer deleted!');
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Deleted customer: ' . $customer->name,
+        ]);
+
+        return redirect()
+            ->route('customers.index')
+            ->with('success', 'Customer deleted successfully!');
     }
 
     // Export CSV
     public function exportCsv()
-{
-    $customers = Customer::all();
+    {
+        $customers = Customer::all();
 
-    $filename = "customers_" . date('Ymd_His') . ".csv";
+        $filename = "customers_" . date('Ymd_His') . ".csv";
 
-    $headers = [
-        'Content-Type' => 'text/csv',
-        'Content-Disposition' => "attachment; filename=$filename",
-    ];
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=$filename",
+        ];
 
-    $callback = function() use ($customers) {
-        $file = fopen('php://output', 'w');
-        fputcsv($file, ['Name', 'Email', 'Phone', 'Address']);
+        $callback = function () use ($customers) {
 
-        foreach ($customers as $c) {
-            fputcsv($file, [$c->name, $c->email, $c->phone, $c->address]);
-        }
+            $file = fopen('php://output', 'w');
 
-        fclose($file);
-    };
+            fputcsv($file, ['Name', 'Email', 'Phone', 'Address']);
 
-    return Response::stream($callback, 200, $headers);
-}
+            foreach ($customers as $c) {
+
+                fputcsv($file, [
+                    $c->name,
+                    $c->email,
+                    $c->phone,
+                    $c->address
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return Response::stream($callback, 200, $headers);
+    }
 
     // Export PDF
     public function exportPdf()
     {
         $customers = Customer::all();
+
         $pdf = Pdf::loadView('customers.pdf', compact('customers'));
-        return $pdf->download('customers_' . date('Ymd_His') . '.pdf');
+
+        return $pdf->download(
+            'customers_' . date('Ymd_His') . '.pdf'
+        );
     }
 }

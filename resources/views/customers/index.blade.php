@@ -5,8 +5,10 @@
 
     <div class="p-6">
 
-        <!-- Top Buttons -->
+        <!-- Top Buttons (ADMIN ONLY) -->
+        @if(auth()->user()->role === 'admin')
         <div style="margin-bottom:15px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+
             <a href="{{ route('customers.create') }}" class="btn btn-green">
                 Add Customer
             </a>
@@ -18,10 +20,13 @@
             <a href="{{ route('customers.export.pdf') }}" class="btn btn-teal">
                 Export PDF
             </a>
+
         </div>
+        @endif
 
         <!-- Search Form -->
-        <form method="GET" action="{{ route('customers.index') }}"
+        <form method="GET"
+              action="{{ route('customers.index') }}"
               style="margin-bottom:15px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
 
             <input
@@ -39,6 +44,7 @@
             <a href="{{ route('customers.index') }}" class="btn btn-red">
                 Reset
             </a>
+
         </form>
 
         <!-- Success Message -->
@@ -49,42 +55,78 @@
         @endif
 
         <!-- Table -->
-        <table border="1" cellpadding="10"
+        <table border="1"
+               cellpadding="10"
                style="margin-top:15px; width:100%; border-collapse:collapse; text-align:center;">
 
-            <tr style="background:#f3f4f6;">
-                <th>Profile</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Action</th>
-            </tr>
+            <thead>
+                <tr style="background:#f3f4f6;">
+                    <th>Profile</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
 
-            @forelse($customers as $customer)
-                <tr>
-                    <!-- Profile Image -->
-                    <td>
+                    @if(auth()->user()->role === 'admin')
+                        <th>Action</th>
+                    @endif
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @forelse($customers as $customer)
+
+                <tr style="vertical-align:middle;">
+
+                    <!-- Profile -->
+                    <td style="vertical-align:middle; text-align:center;">
+
                         @if($customer->profile_image)
+
                             <img
                                 src="{{ asset('uploads/customers/' . $customer->profile_image) }}"
-                                alt="Profile Image"
+                                alt="Profile"
                                 width="50"
                                 height="50"
-                                style="border-radius:50%; object-fit:cover;"
+                                style="
+                                    width:50px;
+                                    height:50px;
+                                    border-radius:50%;
+                                    object-fit:cover;
+                                    display:block;
+                                    margin:auto;
+                                "
                             >
+
                         @else
+
                             N/A
+
                         @endif
+
                     </td>
 
-                    <!-- Customer Details -->
-                    <td>{{ $customer->name }}</td>
-                    <td>{{ $customer->email }}</td>
-                    <td>{{ $customer->phone }}</td>
+                    <!-- Name -->
+                    <td style="vertical-align:middle;">
+                        {{ $customer->name }}
+                    </td>
 
-                    <!-- Action Buttons -->
-                    <td>
-                        <div style="display:flex; gap:8px; justify-content:center; align-items:center;">
+                    <!-- Email -->
+                    <td style="vertical-align:middle;">
+                        {{ $customer->email }}
+                    </td>
+
+                    <!-- Phone -->
+                    <td style="vertical-align:middle;">
+                        {{ $customer->phone }}
+                    </td>
+
+                    <!-- Actions -->
+                    @if(auth()->user()->role === 'admin')
+
+                    <td style="vertical-align:middle;">
+
+                        <div style="display:flex; gap:10px; justify-content:center; align-items:center;">
 
                             <a href="{{ route('customers.edit', $customer->id) }}"
                                class="btn btn-blue">
@@ -100,22 +142,31 @@
 
                                 <button type="submit"
                                         class="btn btn-red"
-                                        onclick="return confirm('Are you sure you want to delete this customer?')">
+                                        onclick="return confirm('Delete this customer?')">
                                     Delete
                                 </button>
+
                             </form>
 
                         </div>
+
                     </td>
+
+                    @endif
+
                 </tr>
 
-            @empty
+                @empty
+
                 <tr>
                     <td colspan="5" style="padding:15px;">
                         No customers found.
                     </td>
                 </tr>
-            @endforelse
+
+                @endforelse
+
+            </tbody>
 
         </table>
 
@@ -128,6 +179,7 @@
 
     <!-- Button Styles -->
     <style>
+
         .btn {
             padding: 8px 14px;
             border-radius: 6px;
@@ -158,5 +210,7 @@
         .btn:hover {
             opacity: 0.9;
         }
+
     </style>
+
 </x-app-layout>
