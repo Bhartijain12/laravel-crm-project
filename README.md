@@ -104,8 +104,13 @@ Each order includes:
 ## Screenshots
 
 ### 1. Login Page
-![Login Page](Screenshots/login_page.png)
+![Login Page](Screenshots/admin_login_page.png)
 *Sample credentials: admin@example.com / password*
+
+---
+
+![Login Page](Screenshots/staff_login_page.png)
+*Sample credentials: staff@example.com / password*
 
 ---
 
@@ -121,13 +126,19 @@ Each order includes:
 
 ---
 
-### 4. Orders Management
+### 4.Recent Activity Logs
+![Activity Logs](Screenshots/activity_logs.png)
+*Track recent admin actions like customer creation, updates, and deletions.*
+
+---
+
+### 5. Orders Management
 ![Orders List](Screenshots/order_list.png)
 *Order tracking with search and status management.*
 
 ---
 
-### 5. Export Feature
+### 6. Export Feature
 ![Exported Document](Screenshots/export_feature.png)
 
 *Demonstrates CSV/PDF export functionality.*
